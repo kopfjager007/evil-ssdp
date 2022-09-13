@@ -538,8 +538,9 @@ def get_ip(args):
     the SMB pointer, if not specified.
     """
     ip_regex = r'inet (?:addr:)?(.*?) '
-    sys_ifconfig = os.popen('ifconfig ' + args.interface).read()
+    sys_ifconfig = os.popen('ip a show ' + args.interface).read()
     local_ip = re.findall(ip_regex, sys_ifconfig)
+    local_ip = local_ip[0].split("/",1)
     try:
         return local_ip[0]
     except IndexError:
